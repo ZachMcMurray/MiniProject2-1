@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include<string.h>
 struct user_t
 {
     double latitude;
@@ -8,7 +9,39 @@ struct user_t
     char name[20];
 };
 
-int main(){
+
+void fileReader(FILE *readFile, struct user_t user_o[], struct user_t* use_1){
+    int x; fscanf(readFile,"%i", &x);
+    char name[10];
+    int time;
+    double lng, lat, alt;
+    fscanf(readFile,"%s", &name);
+    fscanf(readFile,"%i", &time);
+    fscanf(readFile,"%lf", &lng);
+    fscanf(readFile,"%lf", &lat);
+    fscanf(readFile,"%lf", &alt);
+    strcpy((*use_1).name, name);
+    (*use_1).time=time;
+    (*use_1).longtitude = lng;
+    (*use_1).latitude = lat;
+    (*use_1).altitude = alt;
+
+    for(int y=0;y<x;y++){
+        fscanf(readFile,"%s", &name);
+        fscanf(readFile,"%i", &time);
+        fscanf(readFile,"%lf", &lng);
+        fscanf(readFile,"%lf", &lat);
+        fscanf(readFile,"%lf", &alt);
+        strcpy(user_o[y].name, name);
+        user_o[y].time=time;
+        user_o[y].longtitude = lng;
+        user_o[y].latitude = lat;
+        user_o[y].altitude = alt; 
+    }
+
+}
+
+int main(void){
     char txt; //user input for text or manual input
     int othernum; //user input for otheruser count
     struct user_t our_user; //defining our user
@@ -25,7 +58,16 @@ int main(){
 
     if (txt == 'y' || txt == 'Y')
     {
-        printf("placeholder");  //this is on you dawg
+        char fileName[30];
+        printf("Please enter name of file\n");
+        scanf("%s", &fileName);
+        FILE *std=fopen(fileName,"r");
+        int size; fscanf(std,"%i",&size);
+        fclose(std);
+        struct user_t arr[size];
+        fileReader(fopen(fileName, "r"),arr,&our_user);
+        
+        printf("%s %s %s %s", our_user.name,arr[0].name, arr[1].name,arr[2].name);
     }
     else if (txt == 'n' || txt == 'N')
     {
@@ -38,9 +80,5 @@ int main(){
     
     
 }
-struct user_t scan_user(struct user_t settinguser){
-printf("are you scanning your user or another user?"){
 
-}
-}
 
