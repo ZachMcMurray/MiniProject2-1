@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include<string.h>
+#include <math.h>
 struct user_t
 {
     double latitude;
@@ -41,6 +42,13 @@ void fileReader(FILE *readFile, struct user_t user_o[], struct user_t* use_1){
 
 }
 
+void difference(struct user_t user_o[], struct user_t use_1, double array[],int size){
+    for(int y=0;y<size;y++){
+        array[y]=sqrt(((use_1.altitude-user_o[y].altitude)*(use_1.altitude-user_o[y].altitude))+((use_1.latitude-user_o[y].latitude)*(use_1.latitude-user_o[y].latitude))+((use_1.longtitude-user_o[y].longtitude)*(use_1.longtitude-user_o[y].longtitude)));
+    }
+    printf("%lf %lf %lf", array[0], array[1], array[2]);
+}
+
 int main(void){
     char txt; //user input for text or manual input
     int othernum; //user input for otheruser count
@@ -65,9 +73,9 @@ int main(void){
         int size; fscanf(std,"%i",&size);
         fclose(std);
         struct user_t arr[size];
+        double arrdis[size];
         fileReader(fopen(fileName, "r"),arr,&our_user);
-        
-        printf("%s %s %s %s", our_user.name,arr[0].name, arr[1].name,arr[2].name);
+        difference(arr,our_user,arrdis,size);
     }
     else if (txt == 'n' || txt == 'N')
     {
