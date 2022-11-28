@@ -63,7 +63,7 @@ void difference(struct user_t user_o[], struct user_t use_1, double array[],int 
     }
 }
 
-void nearUser(struct user_t user_o[], struct user_t use_1, double array[],int size){
+int nearUser(struct user_t user_o[], struct user_t use_1, double array[],int size){
 double small = array[0];
 int countSave=0;
 for(int x=1;x<size;x++){
@@ -72,13 +72,14 @@ for(int x=1;x<size;x++){
         countSave = x;
     }
 }
-printf("%s is closest to %s at %.2lf",user_o[countSave].name,use_1.name,array[countSave]);
+return countSave;
 }
 
 int main(void){
     char txt; //user input for text or manual input
     int othernum; //user input for otheruser count
     struct user_t our_user; //defining our user
+    int smallSpot;
     do{ //do while to ensure user gives valid input
     printf("Are you using a text file? (y/n)");
     scanf(" %c", &txt);
@@ -102,7 +103,8 @@ int main(void){
         double arrdis[size];
         fileReader(fopen(fileName, "r"),arr,&our_user);
         difference(arr,our_user,arrdis,size);
-        nearUser(arr,our_user,arrdis,size);
+        smallSpot = nearUser(arr,our_user,arrdis,size);
+        printf("%s is the closest to %s at %.2lfm",arr[smallSpot].name,our_user.name,arrdis[smallSpot]);
     }
     else if (txt == 'n' || txt == 'N')
     {
@@ -113,10 +115,10 @@ int main(void){
         struct user_t other_users[othernum];
         double arrdis[othernum];
         otherUsers(other_users,othernum);
-         difference(other_users,our_user,arrdis,othernum);
-         nearUser(other_users,our_user,arrdis,othernum);
+        difference(other_users,our_user,arrdis,othernum);
+        smallSpot = nearUser(other_users,our_user,arrdis,othernum);
+        printf("%s is the closest to %s at %.2lfm",other_users[smallSpot].name,our_user.name,arrdis[smallSpot]);
     }
-    
     
 }
 
